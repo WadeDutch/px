@@ -44,6 +44,7 @@ class App(tk.PanedWindow):
         file = tk.Menu(menubar, tearoff=0)
         file.add_command(label="New Project (Ctrl+N)", command= self.cmd.createnewproject)
         file.add_command(label="Save Changes (Ctrl+S)", command= self.cmd.saveprojectdata)
+        file.add_command(label="Save As Spreadsheet", command= self.cmd.saveasSpreadSheet)
         file.add_command(label="Delete Project (Ctrl+D)", command= self.cmd.confirmdeletepop)
 
 

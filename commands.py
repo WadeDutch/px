@@ -1,11 +1,23 @@
 from datetime import datetime
 import json
 import tkinter as tk
+from tkinter import filedialog
+import filesave
 
 class COMMANDS():
     def __init__(self, app):
         self.app = app
 
+    def searchProjects(self, uid):
+        foundFlag = False
+        for project in self.app.projects:
+            if project["UID"] == uid and foundFlag == False:
+                out = project
+                foundFlag == True
+            elif project["UID"] == uid and foundFlag == True:
+                print("Error: Duplicate UID's Found. Returning First Item Found")
+
+        return out
 
     def saveprojectdata(self, event=None):
         for project in self.app.projects:
@@ -99,7 +111,6 @@ class COMMANDS():
         self.app.loadprojects()
         self.app.updatedisplay()
 
-
     def confirmdeletepop(self, event=None):
         top = tk.Toplevel()
         top.wm_title("Are You Sure?")
@@ -112,3 +123,29 @@ class COMMANDS():
         top.y.bind("<ButtonPress-1>", self.deleteprojectdata)
         top.y.bind("<ButtonRelease-1>", lambda e: top.destroy())
         tk.Button(top, text="No", command= top.destroy, width=25, height=2).pack(side=tk.LEFT)
+
+    def saveasSpreadSheet(self, event=None):
+        top = tk.Toplevel()
+        top.wm_title("Save as Spreadsheet")
+
+        tk.Label(top, text="Select Entries to Save", pady=10).pack()
+
+        f = tk.Frame(top)
+        f.pack()
+
+        self.selectedprojects = []
+        cbvars = [] #list of (id, variable) tuples
+        for project in self.app.projects:
+            cbvars.append((project["UID"],tk.IntVar()))
+            tk.Checkbutton(f, text=project["client"], variable = cbvars[-1][1], command= lambda: self.updateSelectedProjects(cbvars)).pack()
+
+        s = tk.Button(f, text="Save As...", pady=10, padx=10)
+        s.bind("<ButtonPress-1>", lambda e: filesave.saveasSpread(filedialog.asksaveasfilename(initialdir = "/",title = "Save File",filetypes = (("csv files","*.csv"),("all files","*.*"))), self.selectedprojects))
+        s.bind("<ButtonRelease-1>", lambda e: top.destroy())
+        s.pack()
+
+    def updateSelectedProjects(self, data):
+        self.selectedprojects=[]
+        for t in data:
+            if (t[1]):
+                self.selectedprojects.append(self.searchProjects(t[0]))
