@@ -1,0 +1,31 @@
+standardJSON =
+{
+    "UID" : "0",
+    "Client":"CompanyName",
+    "ProjectInfo":
+    {
+        "year" : "2019",
+        "status" : "4-notes on what 4 means",
+        "industry" : "Apparel",
+        "filingdate" : "mm-dd-yyyy",
+        "credit" : "100000",
+        "rate" : ".20",
+        "estimatedrevenue" : "50000",
+        "newclient" : "Yes",
+        "CPA" : "CRG",
+        "nextstep" : "Notes on project here"
+    },
+
+    "BillingInfo":
+    {
+        "rate" : ".175",
+        "bill" : "80000",
+        "billingdescription" : "2018 Research Credit",
+        "datebilled" : "mm-dd-yyyy",
+        "datecollected" : "mm-dd-yyyy",
+        "billnum" : "1263",
+        "collected" : "No",
+        "referal":"900"
+        "comment" : "Notes on project here"
+    }
+}
