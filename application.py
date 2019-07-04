@@ -45,17 +45,17 @@ class App(tk.PanedWindow):
         file.add_command(label="New Project (Ctrl+N)", command= self.cmd.createnewproject)
         file.add_command(label="Save Changes (Ctrl+S)", command= self.cmd.saveprojectdata)
         file.add_command(label="Delete Project (Ctrl+D)", command= self.cmd.confirmdeletepop)
-        file.add_command(label="Save As Spreadsheet", command= self.cmd.saveasSpreadSheet)
+        file.add_command(label="Save To Spreadsheet", command= self.cmd.saveasSpreadSheet)
 
         commands = tk.Menu(menubar, tearoff=0)
-        commands.add_command(label="Calculate X")
-        commands.add_command(label="Do Y")
+        commands.add_command(label="Find Collected/AR", command= self.cmd.findCollected)
+        #commands.add_command(label="FInd AR", command= self.cmd.findAR)
 
         menubar.add_cascade(label="File", menu=file)
         menubar.add_cascade(label="Commands", menu=commands)
         self.master.config(menu=menubar)
 
-        # create keyboard shortcuts
+        # bind keyboard shortcuts
         self.master.bind("<Control-n>", self.cmd.createnewproject)
         self.master.bind("<Control-s>", self.cmd.saveprojectdata)
         self.master.bind("<Control-d>", self.cmd.confirmdeletepop)
@@ -211,36 +211,32 @@ class App(tk.PanedWindow):
         #save data before changing project
         self.cmd.saveprojectdata()
 
-        uidflag=False
-        for project in self.projects:
-            if (project["UID"] == UID):
-                if (uidflag == True):
-                    print("conflicint UID's, something went wrong.")
-                    continue
+        #get project info to display
+        project = self.cmd.searchProjects(UID)
 
-                #project info
-                self.activeUID = UID
-                self.settext(self.client, project["client"])
-                self.settext(self.year, project["ProjectInfo"]["year"])
-                self.settext(self.status, project["ProjectInfo"]["status"])
-                self.settext(self.industry, project["ProjectInfo"]["industry"])
-                self.settext(self.filingdate, project["ProjectInfo"]["filingdate"])
-                self.settext(self.credit, project["ProjectInfo"]["credit"])
-                self.settext(self.P_rate, project["ProjectInfo"]["rate"])
-                self.settext(self.estimatedrevenue, project["ProjectInfo"]["estimatedrevenue"])
-                self.settext(self.newclient, project["ProjectInfo"]["newclient"])
-                self.settext(self.cpa, project["ProjectInfo"]["CPA"])
-                self.settext(self.nextstep, project["ProjectInfo"]["nextstep"])
+        #project info
+        self.activeUID = UID
+        self.settext(self.client, project["client"])
+        self.settext(self.year, project["ProjectInfo"]["year"])
+        self.settext(self.status, project["ProjectInfo"]["status"])
+        self.settext(self.industry, project["ProjectInfo"]["industry"])
+        self.settext(self.filingdate, project["ProjectInfo"]["filingdate"])
+        self.settext(self.credit, project["ProjectInfo"]["credit"])
+        self.settext(self.P_rate, project["ProjectInfo"]["rate"])
+        self.settext(self.estimatedrevenue, project["ProjectInfo"]["estimatedrevenue"])
+        self.settext(self.newclient, project["ProjectInfo"]["newclient"])
+        self.settext(self.cpa, project["ProjectInfo"]["CPA"])
+        self.settext(self.nextstep, project["ProjectInfo"]["nextstep"])
 
-                #billing info
-                self.settext(self.B_rate, project["BillingInfo"]["rate"])
-                self.settext(self.bill, project["BillingInfo"]["bill"])
-                self.settext(self.billingdescription, project["BillingInfo"]["billingdescription"])
-                self.settext(self.datebilled, project["BillingInfo"]["datebilled"])
-                self.settext(self.datecollected, project["BillingInfo"]["datecollected"])
-                self.settext(self.billnumber, project["BillingInfo"]["billnumber"])
-                self.settext(self.collected, project["BillingInfo"]["collected"])
-                self.settext(self.referal, project["BillingInfo"]["referal"])
-                self.settext(self.comment, project["BillingInfo"]["comment"])
+        #billing info
+        self.settext(self.B_rate, project["BillingInfo"]["rate"])
+        self.settext(self.bill, project["BillingInfo"]["bill"])
+        self.settext(self.billingdescription, project["BillingInfo"]["billingdescription"])
+        self.settext(self.datebilled, project["BillingInfo"]["datebilled"])
+        self.settext(self.datecollected, project["BillingInfo"]["datecollected"])
+        self.settext(self.billnumber, project["BillingInfo"]["billnumber"])
+        self.settext(self.collected, project["BillingInfo"]["collected"])
+        self.settext(self.referal, project["BillingInfo"]["referal"])
+        self.settext(self.comment, project["BillingInfo"]["comment"])
 
-                uidflag = True
+        uidflag = True

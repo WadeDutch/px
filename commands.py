@@ -149,3 +149,24 @@ class COMMANDS():
         for t in data:
             if (t[1]):
                 self.selectedprojects.append(self.searchProjects(t[0]))
+
+    def alert(self, message, title):
+        top = tk.Toplevel()
+        top.wm_title(title)
+
+        msg = tk.Label(top, text=message, pady=10)
+        msg.pack()
+
+        btn = tk.Button(top, text="Ok", width=25, height=2, command= top.destroy)
+        btn.pack()
+
+
+    def findCollected(self):
+        collected=0
+        ar=0
+        for project in self.app.projects:
+            if project["BillingInfo"]["collected"].lower().strip() == "yes":
+                collected += int(project["BillingInfo"]["bill"])
+            elif project["BillingInfo"]["collected"].lower().strip() == "no":
+                ar += int(project["BillingInfo"]["bill"])
+        self.alert("Collected: "+str(collected)+"\nAR: "+str(ar),"Collected/AR")
